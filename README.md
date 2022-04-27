@@ -11,21 +11,21 @@ Esta seção tem as etapas necessárias para a utilização da aplicação.
 
 1. **clone o repositório:**
   ```sh
-  git clone 
+  git clone https://github.com/denispadua/songs-api.git
   ```
 
 2. **arquivos de ambiente:**
 
-  Na pasta raiz do back-end `flask-test`:
+  Na pasta raiz do back-end `songs-api`:
 
   ```sh
-  Altere os valores do arquivo .env com as conexões dos servidores Amazon e o token da API Genius
+  Altere os valores /do arquivo .env com as conexões dos servidores Amazon e o token da API Genius
   ```
 
 
 3. **executando back-end:**
 
-  Na pasta raiz do back-end `flask-test`, executar:
+  Na pasta raiz do back-end `songs-api`, executar:
 
   ```sh
   pip install -r requirements.txt
