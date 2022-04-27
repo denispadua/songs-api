@@ -1,6 +1,6 @@
 import json
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, abort, jsonify, request
 
 import api.services as service
 
@@ -12,6 +12,9 @@ def cache():
 
     artist_name = request.args.get('artist_name', type=str)
     cache = request.args.get('cache', 'True', type=str)
+
+    if artist_name is None:
+        abort(400, "artist_name is required")
 
     transaction = service.search_transaction(artist_name)
 
