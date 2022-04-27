@@ -1,4 +1,4 @@
-# api
+# Songs API
 
 A Api foi desenvolvida para obter as dez músicas mais populares de um artista utilizando a Genius API.
 
@@ -25,7 +25,7 @@ Esta seção tem as etapas necessárias para a utilização da aplicação.
 
 3. **executando back-end:**
 
-  Na pasta raiz do back-end `songs-api`, executar:
+  Na pasta raiz `songs-api`, executar:
 
   ```sh
   pip install -r requirements.txt
