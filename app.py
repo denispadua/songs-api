@@ -1,4 +1,5 @@
 from flask import Flask, jsonify
+
 from api.views import api_bp
 
 app = Flask(__name__)
