@@ -1,11 +1,13 @@
-import datetime
 import json
-from flask import abort
-import requests
-from database.db import dynamodb, redis
-from boto3.dynamodb.conditions import Key
-from uuid import uuid4
 import os
+from datetime import datetime, timedelta
+from uuid import uuid4
+
+import requests
+from boto3.dynamodb.conditions import Key
+from flask import abort
+
+from database.db import dynamodb, redis
 
 
 def get_artist_id(artist_data, artist_name):
@@ -43,19 +45,37 @@ def save_transaction(transaction):
 
 def create_cache(id, top_songs):
 
-    redis.setex(id, datetime.timedelta(7), json.dumps(top_songs))
+    redis.setex(id, timedelta(7), json.dumps(top_songs))
 
 
 def create_transaction(artist_name, cache):
 
-    return {'Id': str(uuid4()), 'Artist': artist_name, 'Time': int(datetime.datetime.timestamp(datetime.datetime.now())), 'Cache': cache}
+    today_timestamp = datetime.timestamp(datetime.now())
+
+    return {'Id': str(uuid4()),
+            'Artist': artist_name,
+            'Time': int(today_timestamp),
+            'Cache': cache}
 
 
 def search_transaction(artist_name):
 
     table = dynamodb.Table('Transactions')
 
-    interval = int(datetime.datetime.timestamp(
-        datetime.datetime.now()-datetime.timedelta(7)))
+    interval = int(datetime.timestamp(datetime.now()-timedelta(7)))
 
-    return table.query(KeyConditionExpression=Key('Artist').eq(artist_name) & Key('Time').gte(interval), Limit=1, ScanIndexForward=False)
+    return table.query(
+        KeyConditionExpression=Key('Artist').eq(artist_name) &
+        Key('Time').gte(interval),
+        Limit=1,
+        ScanIndexForward=False)
+
+
+def get_cache(id):
+
+    return redis.get(id)
+
+
+def delete_cache(id):
+
+    redis.delete(id)
