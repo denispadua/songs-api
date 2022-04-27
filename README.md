@@ -16,7 +16,7 @@ Esta seção tem as etapas necessárias para a utilização da aplicação.
 
 2. **arquivos de ambiente:**
 
-  Na pasta raiz do back-end `songs-api`:
+  Na pasta raiz `songs-api`:
 
   ```sh
   Altere os valores /do arquivo .env com as conexões dos servidores Amazon e o token da API Genius
