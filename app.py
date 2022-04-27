@@ -17,4 +17,5 @@ def redirect_to_api():
     return redirect('/api/')
 
 
-app.run()
+if __name__ == "__main__":
+    app.run()
