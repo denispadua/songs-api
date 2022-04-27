@@ -1,13 +1,10 @@
-import json
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 from uuid import uuid4
 
 import requests
-from boto3.dynamodb.conditions import Key
-from flask import abort
 
-from database.db import dynamodb, redis
+from flask import abort
 
 
 def get_artist_id(artist_data, artist_name):
@@ -34,20 +31,6 @@ def get_json_data(url, params=None):
         abort(500, description='Error to connect in Genius API')
 
 
-def save_transaction(transaction):
-
-    try:
-        table = dynamodb.Table('Transactions')
-        table.put_item(Item=transaction)
-    except:
-        abort(500, description='Its not possible to create transaction')
-
-
-def create_cache(id, top_songs):
-
-    redis.setex(id, timedelta(7), json.dumps(top_songs))
-
-
 def create_transaction(artist_name, cache):
 
     today_timestamp = datetime.timestamp(datetime.now())
@@ -56,26 +39,3 @@ def create_transaction(artist_name, cache):
             'Artist': artist_name,
             'Time': int(today_timestamp),
             'Cache': cache}
-
-
-def search_transaction(artist_name):
-
-    table = dynamodb.Table('Transactions')
-
-    interval = int(datetime.timestamp(datetime.now()-timedelta(7)))
-
-    return table.query(
-        KeyConditionExpression=Key('Artist').eq(artist_name) &
-        Key('Time').gte(interval),
-        Limit=1,
-        ScanIndexForward=False)
-
-
-def get_cache(id):
-
-    return redis.get(id)
-
-
-def delete_cache(id):
-
-    redis.delete(id)
