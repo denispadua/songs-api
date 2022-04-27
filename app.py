@@ -1,16 +1,20 @@
-from flask import Flask, jsonify
+from flask import Flask, redirect
 
 from api.views import api_bp
+from api.error_handling import register_error_handling
 
 app = Flask(__name__)
-
-
-@app.errorhandler(404)
-def artist_not_found(message):
-    return jsonify({'error': message.description, 'status': message.code}), message.code
 
 
 app.register_blueprint(api_bp)
 
 
-app.run(debug=True)
+register_error_handling(app)
+
+
+@app.get('/')
+def redirect_to_api():
+    return redirect('/api/')
+
+
+app.run()
