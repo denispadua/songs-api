@@ -2,6 +2,9 @@
 
 A Api foi desenvolvida para obter as dez músicas mais populares de um artista utilizando a Genius API.
 
+A aplicação está disponível no Heroku:
+
+- [API](https://songs-api-denis.herokuapp.com/api/)
 
 #### Utilização da aplicação
 
